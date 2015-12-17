@@ -6,6 +6,7 @@
 #define CANNOT_INIT_PROCESSOR 5
 #define STACK_OVERFLOW 6
 #define STACK_UNDERFLOW 7
+#define STACK_IS_EMPTY 8
 #endif
 
 #ifdef ASM

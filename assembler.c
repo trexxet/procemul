@@ -19,10 +19,6 @@
 #include "generated/commands.h"
 #include "errors.h"
 
-#ifdef DEBUG
-#include <stdio.h>
-#endif
-
 int *program;
 size_t maxProgramSize;
 size_t programSize;
@@ -45,7 +41,7 @@ int assembleString(char *sourceString)
 	char *arg2 = strtok(NULL, DIVIDER);
 	int arg1Type = NONE, arg2Type = NONE; //0 - NULL, 1 - num, 2 - register
 	arg1Type += IS_NUM(arg1) + 2 * IS_REG(arg1);
-	arg2Type += IS_NUM(arg1) + 2 * IS_REG(arg2);
+	arg2Type += IS_NUM(arg2) + 2 * IS_REG(arg2);
 	if ((arg1 != NULL && arg1Type == 0) || (arg2 != NULL && arg2Type == 0))
 		return INVALID_REGISTER;
 	#include "generated/assembler_generated.c"

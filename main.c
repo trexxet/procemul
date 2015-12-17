@@ -1,15 +1,23 @@
+#include <stdio.h>
+#include "errors.h"
+
 #ifdef ASM
 #define SOURCE_STRING_LENGTH 255
 #define INIT_PROGRAM_SIZE 16
-
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "assembler.h"
-#include "errors.h"
+#endif
+
+#ifdef PROC
+#define _VERSION 1
+#include "processor.h"
+#endif
 
 int main(int argc, char * argv[])
 {
+	//ASSEMBLER CODE
+	#ifdef ASM
 	if (argc == 1)
 	{
 		fprintf(stderr, "Error: no source code set\n");
@@ -64,19 +72,10 @@ int main(int argc, char * argv[])
 	fclose(out);
 	
 	printf("%s compiled to %s succesfully\n", argv[1], outputName);
-	return 0;
-}
-#endif
+	#endif
 
-#ifdef PROC
-#define _VERSION 1
-
-#include <stdio.h>
-#include "processor.h"
-#include "errors.h"
-
-int main(int argc, char *argv[])
-{
+	//PROCESSOR CODE
+	#ifdef PROC
 	if (argc == 1)
 	{
 		fprintf(stderr, "Error: no program set\n");
@@ -117,6 +116,9 @@ int main(int argc, char *argv[])
 			return err;
 		case STACK_UNDERFLOW: 
 			fprintf(stderr, "Error: stack underflow\n");
+			return err;
+		case STACK_IS_EMPTY:
+			fprintf(stderr, "Error: trying to get data from empty stack\n");
 			return err;
 	}
 
